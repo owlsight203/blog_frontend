@@ -39,6 +39,13 @@ class BlogController extends Controller
         $currentPage = $data['current_page'] ?? $data['page'] ?? 1;
         $lastPage = $data['last_page'] ?? (isset($data['count']) ? ceil($data['count'] / 10) : 1);
 
+        $posts = $data['data'] ?? $data['results'] ?? $data;
+        if (!is_array($posts) && !is_object($posts)) {
+            $posts = [];
+        }
+        $currentPage = $data['current_page'] ?? $data['page'] ?? 1;
+        $lastPage = $data['last_page'] ?? (isset($data['count']) ? ceil($data['count'] / 10) : 1);
+
         return view('posts.index', [
             'posts' => $posts,
             'currentPage' => $currentPage,
