@@ -31,10 +31,15 @@ class BlogController extends Controller
 
         $data = $response->json();
 
+        // Xử lý linh hoạt: Hỗ trợ cả Laravel paginator, DRF paginator hoặc mảng thuần
+        $posts = $data['data'] ?? $data['results'] ?? $data;
+        $currentPage = $data['current_page'] ?? $data['page'] ?? 1;
+        $lastPage = $data['last_page'] ?? (isset($data['count']) ? ceil($data['count'] / 10) : 1);
+
         return view('posts.index', [
-            'posts' => $data['data'],
-            'currentPage' => $data['current_page'],
-            'lastPage' => $data['last_page']
+            'posts' => $posts,
+            'currentPage' => $currentPage,
+            'lastPage' => $lastPage
         ]);
     }
 
