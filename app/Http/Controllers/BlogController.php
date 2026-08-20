@@ -11,7 +11,6 @@ class BlogController extends Controller
 
     public function __construct()
     {
-        // Đọc từ biến môi trường, nếu không có thì fallback về localhost (để test khi chạy local)
         $this->apiUrl = env('DJANGO_API_URL', 'http://127.0.0.1:8000');
     }
 
@@ -31,8 +30,12 @@ class BlogController extends Controller
 
         $data = $response->json();
 
-        // Xử lý linh hoạt: Hỗ trợ cả Laravel paginator, DRF paginator hoặc mảng thuần
+        // Xử lý an toàn tránh lỗi null/foreach
         $posts = $data['data'] ?? $data['results'] ?? $data;
+        if (!is_array($posts) && !is_object($posts)) {
+            $posts = [];
+        }
+
         $currentPage = $data['current_page'] ?? $data['page'] ?? 1;
         $lastPage = $data['last_page'] ?? (isset($data['count']) ? ceil($data['count'] / 10) : 1);
 
@@ -50,7 +53,6 @@ class BlogController extends Controller
         $response = Http::get("{$this->apiUrl}/{$id}/", [
             'user_id' => $userId 
         ]);
-
         
         if ($response->status() === 403) {
             return redirect()->route('index')->with('error', 'Bài viết này ở chế độ riêng tư.');
@@ -63,12 +65,11 @@ class BlogController extends Controller
         $data = $response->json();
 
         return view('posts.detail', [
-            'post'     => $data['post'],
-            'comments' => $data['comments']
+            'post'     => $data['post'] ?? [],
+            'comments' => $data['comments'] ?? []
         ]);
     }
     
-
     public function storeComment(Request $request, $id)
     {
         $request->validate([
@@ -77,7 +78,6 @@ class BlogController extends Controller
         ]);
 
         try {
-            
             $postResponse = Http::get("{$this->apiUrl}/{$id}/");
 
             if ($postResponse->failed()) {
@@ -86,14 +86,12 @@ class BlogController extends Controller
 
             $postData = $postResponse->json();
             $blogTitle = $postData['post']['title'] ?? '';
-            
             $blogContent = $postData['post']['description'] ?? '';
 
             $response = Http::timeout(25)->post("{$this->apiUrl}/{$id}/comment/", [
                 'content'      => $request->content,
                 'ai_type'      => $request->ai_type,
                 'user_id'      => 1,
-                
                 'post_title'   => $blogTitle,
                 'post_content' => $blogContent,
             ]);
@@ -122,10 +120,19 @@ class BlogController extends Controller
 
         $data = $response->json();
 
+        // Xử lý an toàn cho picai
+        $pics = $data['data'] ?? $data['results'] ?? $data;
+        if (!is_array($pics) && !is_object($pics)) {
+            $pics = [];
+        }
+
+        $currentPage = $data['current_page'] ?? $data['page'] ?? 1;
+        $lastPage = $data['last_page'] ?? (isset($data['count']) ? ceil($data['count'] / 10) : 1);
+
         return view('posts.picai', [
-            'pics' => $data['data'],
-            'currentPage' => $data['current_page'],
-            'lastPage' => $data['last_page']
+            'pics' => $pics,
+            'currentPage' => $currentPage,
+            'lastPage' => $lastPage
         ]);
     }
 
@@ -140,8 +147,8 @@ class BlogController extends Controller
         $data = $response->json();
         
         return view('posts.profile', [
-            'anonymous' => $data['anonymous'],
-            'profile' => $data['profile']
+            'anonymous' => $data['anonymous'] ?? null,
+            'profile' => $data['profile'] ?? []
         ]);
     }
 
