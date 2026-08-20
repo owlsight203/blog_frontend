@@ -1,19 +1,11 @@
 <?php
-
-	// Forward Vercel requests to Laravel application
-	require __DIR__ . '/../vendor/autoload.php';
-
-	$app = require_once __DIR__ . '/../bootstrap/app.php';
-
-	$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
-	$response = $kernel->handle(
-	    $request = Illuminate\Http\Request::capture()
-	);
-
-	$response->send();
-
-	$kernel->terminate($request, $response);
-
+	try {
+	    // Forward Vercel requests to Laravel public index.php
+	    require __DIR__ . '/../public/index.php';
+	} catch (\Throwable $e) {
+	    // In ra lỗi chi tiết nếu Laravel gặp vấn đề khởi chạy
+	    echo "<h1>Laravel Bootstrap Error:</h1>";
+	    echo "<pre>" . htmlspecialchars($e->getMessage()) . "\n\n" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+	}
 
 ?>
