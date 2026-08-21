@@ -42,7 +42,7 @@
                             <div class="card-text text-truncate" style="max-height: 100px;">
                                 {!! $post['description'] !!}
                             </div>
-                            <a href="{{ route('detail', ['id' => $post['id']]) }}" class="btn btn-primary btn-sm mt-3" name="btn-detail-blog">Xem chi tiết</a>
+                            <a href="{{ route('detail', ['id' => $post['id']]) }}" class="btn btn-dark btn-sm mt-3" name="btn-detail-blog">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
