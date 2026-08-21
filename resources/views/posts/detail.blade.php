@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,14 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
-            <div class="navbar-nav">
-                <a class="nav-link fw-bold" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link fw-bold" href="{{ route('picai') }}">Ảnh AI</a>
+            <div class="navbar-nav align-items-center flex-row">
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                
+                <!-- Nút chuyển đổi Dark/Light mode -->
+                <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
+                    🌙 Dark Mode
+                </button>
             </div>
         </div>
     </nav>
@@ -23,7 +28,7 @@
             <div class="col-md-9">
                 <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-sm mb-3">&larr; Quay lại danh sách</a>
 
-                <div class="card shadow-sm p-4 bg-white rounded mb-4">
+                <div class="card shadow-sm p-4 rounded mb-4">
                     <h1 class="display-5 fw-bold mb-3">{{ $post['title'] }}</h1>
                     
                     <p class="text-muted small mb-4">
@@ -54,8 +59,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== KHU VỰC BÌNH LUẬN THÊM VÀO GIỮA ĐÂY ==================== -->
-
                 <!-- 1. Thông báo trạng thái thành công hoặc lỗi từ Laravel -->
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
@@ -72,7 +75,7 @@
                 @endif
 
                 <!-- 2. Form gửi bình luận kèm lựa chọn API Bot AI -->
-                <div class="card shadow-sm p-4 bg-white rounded mb-4">
+                <div class="card shadow-sm p-4 rounded mb-4">
                     <h3 class="h4 fw-bold mb-3">Viết bình luận</h3>
                     <form action="{{ route('comment.store', ['id' => $post['id']]) }}" method="POST">
                         @csrf
@@ -92,26 +95,25 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-dark px-4">Đăng bình luận</button>
+                        <button type="submit" class="btn btn-primary px-4">Đăng bình luận</button>
                     </form>
                 </div>
 
                 <!-- 3. Khu vực render danh sách các bình luận cũ & mới -->
-                <div class="card shadow-sm p-4 bg-white rounded">
+                <div class="card shadow-sm p-4 rounded">
                     <h3 class="h4 fw-bold mb-4">Thảo luận ({{ count($comments) }})</h3>
                     
                     @if(count($comments) > 0)
                         <div class="comment-list">
                             @foreach($comments as $comment)
                                 @php
-                                    // Kiểm tra xem username có chứa chữ 'bot' để đổi màu viền card AI cho sinh động
                                     $isBot = str_contains(strtolower($comment['author']['username']), 'bot');
                                 @endphp
-                                <div class="card mb-3 {{ $isBot ? 'border-info bg-light-subtle' : 'border-light-subtle' }}">
+                                <div class="card mb-3 {{ $isBot ? 'border-info' : '' }}">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <div>
-                                                <strong class="{{ $isBot ? 'text-info fw-bold' : 'text-dark' }}">
+                                                <strong class="{{ $isBot ? 'text-info fw-bold' : '' }}">
                                                     {{ $isBot ? '🤖 ' . $comment['author']['username'] : '@' . $comment['author']['username'] }}
                                                 </strong>
                                             </div>
@@ -119,7 +121,7 @@
                                                 {{ date('H:i - d/m/Y', strtotime($comment['created_at'])) }}
                                             </small>
                                         </div>
-                                        <p class="card-text text-secondary mb-0" style="white-space: pre-wrap; line-height: 1.6;">{{ $comment['content'] }}</p>
+                                        <p class="card-text mb-0" style="white-space: pre-wrap; line-height: 1.6;">{{ $comment['content'] }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -129,13 +131,42 @@
                     @endif
                 </div>
 
-                <!-- ============================================================================= -->
-
             </div>
         </div>
     </div>
 
-    <!-- Bổ sung file bundle JS của Bootstrap để tính năng tắt Alert hoạt động mượt mà -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script xử lý Dark/Light Mode đồng bộ localStorage -->
+    <script>
+        const btnSwitch = document.getElementById('btnSwitch');
+        const htmlElement = document.documentElement;
+
+        // 1. Lấy trạng thái theme đã lưu từ trước
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        // 2. Bắt sự kiện click vào nút
+        btnSwitch.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // 3. Hàm cập nhật giao diện
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-bs-theme', theme);
+            if (theme === 'dark') {
+                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
+            } else {
+                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,16 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('index') }}">My Blog</a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link" href="{{ route('picai') }}">Ảnh AI</a>
-                <a class="nav-link active" href="{{ route('profile') }}">Profile</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
+            <div class="navbar-nav align-items-center flex-row">
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link active fw-bold me-3" href="{{ route('profile') }}">Profile</a>
+                
+                <!-- Nút chuyển đổi Dark/Light mode -->
+                <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
+                    🌙 Dark Mode
+                </button>
             </div>
         </div>
     </nav>
@@ -32,13 +37,14 @@
                         
                         <div class="mb-3">
                             @if(!empty($profile['image']))
-                                <img src="http://127.0.0.1:8000{{ $profile['image'] }}" class="rounded-circle img-thumbnail shadow-sm" alt="Avatar" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
+                                <img src="http://127.0.0.1:8000{{ $profile['image'] }}" class="rounded-circle img-thumbnail shadow-sm bg-body" alt="Avatar" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid var(--bs-body-bg);">
                             @else
-                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle img-thumbnail shadow-sm" alt="Default Avatar" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle img-thumbnail shadow-sm bg-body" alt="Default Avatar" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid var(--bs-body-bg);">
                             @endif
                         </div>
 
-                        <h4 class="fw-bold mb-1 text-dark">
+                        <!-- Gỡ bỏ text-dark cố định để Bootstrap tự đổi màu chữ khi bật Dark Mode -->
+                        <h4 class="fw-bold mb-1">
                             {{ $profile['user']['username'] ?? 'Guest User' }}
                         </h4>
                         
@@ -75,5 +81,38 @@
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script xử lý Dark/Light Mode đồng bộ localStorage -->
+    <script>
+        const btnSwitch = document.getElementById('btnSwitch');
+        const htmlElement = document.documentElement;
+
+        // 1. Lấy trạng thái theme đã lưu từ trước
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        // 2. Bắt sự kiện click vào nút
+        btnSwitch.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // 3. Hàm cập nhật giao diện
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-bs-theme', theme);
+            if (theme === 'dark') {
+                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
+            } else {
+                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
+            }
+        }
+    </script>
 </body>
 </html>
