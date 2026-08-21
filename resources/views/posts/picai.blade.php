@@ -11,14 +11,20 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fw-bold mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}">
+                <i class="fa-solid fa-blog me-2"></i>My Blog
+            </a>
             <div class="navbar-nav align-items-center flex-row">
-                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link active fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">
+                    <i class="fa-solid fa-house me-1"></i>Trang chủ
+                </a>
+                <a class="nav-link active fw-bold me-3" href="{{ route('picai') }}">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>Ảnh AI
+                </a>
                 
                 <!-- Nút chuyển đổi Dark/Light mode -->
                 <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
-                    🌙 Dark Mode
+                    <i class="fa-solid fa-moon me-1"></i> Dark Mode
                 </button>
             </div>
         </div>
@@ -26,8 +32,12 @@
 
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="fw-bold">Danh sách ảnh tạo bởi AI</h1>
-            <a href="{{ route('index') }}" class="btn btn-dark btn-sm">Xem Bài Viết Blog</a>
+            <h1 class="fw-bold">
+                <i class="fa-solid fa-images me-2"></i>Danh sách ảnh tạo bởi AI
+            </h1>
+            <a href="{{ route('index') }}" class="btn btn-dark btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i>Xem Bài Viết Blog
+            </a>
         </div>
 
         <div class="row">
@@ -38,7 +48,7 @@
                             <img src="{{ $pic['img_AI'] }}" class="card-img-top" alt="AI Image" style="height: 250px; object-fit: cover;">
                             <div class="card-body">
                                 <p class="card-text text-muted small text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px;">
-                                    {{ $pic['description'] ?? 'Không có mô tả cho ảnh này.' }}
+                                    <i class="fa-solid fa-quote-left me-1"></i>{{ $pic['description'] ?? 'Không có mô tả cho ảnh này.' }}
                                 </p>
                             </div>
                         </div>
@@ -46,7 +56,9 @@
                 @endforeach
             @else
                 <div class="col-12 text-center py-5">
-                    <p class="text-muted fs-5">Hiện tại chưa có dữ liệu hình ảnh AI nào.</p>
+                    <p class="text-muted fs-5">
+                        <i class="fa-regular fa-image me-1"></i>Hiện tại chưa có dữ liệu hình ảnh AI nào.
+                    </p>
                 </div>
             @endif
         </div>
@@ -55,15 +67,21 @@
             <nav class="d-flex justify-content-center mt-4">
                 <ul class="pagination shadow-sm">
                     <li class="page-item {{ $currentPage <= 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="?page={{ $currentPage - 1 }}">Trang trước</a>
+                        <a class="page-link" href="?page={{ $currentPage - 1 }}">
+                            <i class="fa-solid fa-chevron-left me-1"></i>Trang trước
+                        </a>
                     </li>
                     
                     <li class="page-item disabled">
-                        <span class="page-link fw-bold">Trang {{ $currentPage }} / {{ $lastPage }}</span>
+                        <span class="page-link fw-bold">
+                            <i class="fa-solid fa-file-lines me-1"></i>Trang {{ $currentPage }} / {{ $lastPage }}
+                        </span>
                     </li>
 
                     <li class="page-item {{ $currentPage >= $lastPage ? 'disabled' : '' }}">
-                        <a class="page-link" href="?page={{ $currentPage + 1 }}">Trang sau</a>
+                        <a class="page-link" href="?page={{ $currentPage + 1 }}">
+                            Trang sau <i class="fa-solid fa-chevron-right ms-1"></i>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -95,10 +113,10 @@
         function setTheme(theme) {
             htmlElement.setAttribute('data-bs-theme', theme);
             if (theme === 'dark') {
-                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-sun me-1"></i> Light Mode';
                 btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
             } else {
-                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-moon me-1"></i> Dark Mode';
                 btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
             }
         }

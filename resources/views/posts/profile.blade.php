@@ -11,15 +11,23 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('index') }}"><i class="fa-solid fa-blog me-2"></i>My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}">
+                <i class="fa-solid fa-blog me-2"></i>My Blog
+            </a>
             <div class="navbar-nav align-items-center flex-row">
-                <a class="nav-link fw-bold me-3" href="{{ route('index') }}"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
-                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Ảnh AI</a>
-                <a class="nav-link active fw-bold me-3" href="{{ route('profile') }}">Profile</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">
+                    <i class="fa-solid fa-house me-1"></i>Trang chủ
+                </a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>Ảnh AI
+                </a>
+                <a class="nav-link active fw-bold me-3" href="{{ route('profile') }}">
+                    <i class="fa-solid fa-user me-1"></i>Profile
+                </a>
                 
                 <!-- Nút chuyển đổi Dark/Light mode -->
                 <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
-                    🌙 Dark Mode
+                    <i class="fa-solid fa-moon me-1"></i> Dark Mode
                 </button>
             </div>
         </div>
@@ -44,7 +52,6 @@
                             @endif
                         </div>
 
-                        <!-- Gỡ bỏ text-dark cố định để Bootstrap tự đổi màu chữ khi bật Dark Mode -->
                         <h4 class="fw-bold mb-1">
                             {{ $profile['user']['username'] ?? 'Guest User' }}
                         </h4>
@@ -107,10 +114,10 @@
         function setTheme(theme) {
             htmlElement.setAttribute('data-bs-theme', theme);
             if (theme === 'dark') {
-                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-sun me-1"></i> Light Mode';
                 btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
             } else {
-                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-moon me-1"></i> Dark Mode';
                 btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
             }
         }

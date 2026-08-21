@@ -11,14 +11,14 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}"><i class="fa-solid fa-blog me-2"></i>My Blog</a>
             <div class="navbar-nav align-items-center flex-row">
-                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Ảnh AI</a>
                 
                 <!-- Nút chuyển đổi Dark/Light mode -->
                 <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
-                    🌙 Dark Mode
+                    <i class="fa-solid fa-moon me-1"></i> Dark Mode
                 </button>
             </div>
         </div>
@@ -27,15 +27,17 @@
     <div class="container py-4">
         <div class="row justify-content-center">
             <div class="col-md-9">
-                <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-sm mb-3">&larr; Quay lại danh sách</a>
+                <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-sm mb-3">
+                    <i class="fa-solid fa-arrow-left me-1"></i>Quay lại danh sách
+                </a>
 
                 <div class="card shadow-sm p-4 rounded mb-4">
                     <h1 class="display-5 fw-bold mb-3">{{ $post['title'] }}</h1>
                     
                     <p class="text-muted small mb-4">
-                        Đăng bởi: <strong>{{ $post['author'] }}</strong> 
+                        <i class="fa-solid fa-user-pen me-1"></i>Đăng bởi: <strong>{{ $post['author'] }}</strong> 
                         @if(isset($post['created_at']))
-                            | Ngày đăng: {{ date('d/m/Y', strtotime($post['created_at'])) }}
+                            | <i class="fa-regular fa-calendar-days me-1"></i>Ngày đăng: {{ date('d/m/Y', strtotime($post['created_at'])) }}
                         @endif
                     </p>
 
@@ -48,7 +50,9 @@
                     @if(!empty($post['tag']))
                         <div class="mb-4">
                             @foreach($post['tag'] as $t)
-                                <span class="badge bg-secondary me-1">#{{ $t['name'] }}</span>
+                                <span class="badge bg-secondary me-1">
+                                    <i class="fa-solid fa-tag me-1"></i>{{ $t['name'] }}
+                                </span>
                             @endforeach
                         </div>
                     @endif
@@ -63,21 +67,23 @@
                 <!-- 1. Thông báo trạng thái thành công hoặc lỗi từ Laravel -->
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-                        {{ session('success') }}
+                        <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-                        {{ $errors->first() }}
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>{{ $errors->first() }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
                 <!-- 2. Form gửi bình luận kèm lựa chọn API Bot AI -->
                 <div class="card shadow-sm p-4 rounded mb-4">
-                    <h3 class="h4 fw-bold mb-3">Viết bình luận</h3>
+                    <h3 class="h4 fw-bold mb-3">
+                        <i class="fa-solid fa-pen-to-square me-2"></i>Viết bình luận
+                    </h3>
                     <form action="{{ route('comment.store', ['id' => $post['id']]) }}" method="POST">
                         @csrf
                         <div class="mb-3">
@@ -85,7 +91,9 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label d-block fw-semibold text-muted small">HỆ THỐNG AI PHẢN HỒI:</label>
+                            <label class="form-label d-block fw-semibold text-muted small">
+                                <i class="fa-solid fa-robot me-1"></i>HỆ THỐNG AI PHẢN HỒI:
+                            </label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="ai_type" id="ai_gemini" value="gemini" checked>
                                 <label class="form-check-label" for="ai_gemini">Google Gemini (Trực tiếp)</label>
@@ -96,13 +104,17 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary px-4">Đăng bình luận</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fa-solid fa-paper-plane me-1"></i>Đăng bình luận
+                        </button>
                     </form>
                 </div>
 
                 <!-- 3. Khu vực render danh sách các bình luận cũ & mới -->
                 <div class="card shadow-sm p-4 rounded">
-                    <h3 class="h4 fw-bold mb-4">Thảo luận ({{ count($comments) }})</h3>
+                    <h3 class="h4 fw-bold mb-4">
+                        <i class="fa-solid fa-comments me-2"></i>Thảo luận ({{ count($comments) }})
+                    </h3>
                     
                     @if(count($comments) > 0)
                         <div class="comment-list">
@@ -119,7 +131,7 @@
                                                 </strong>
                                             </div>
                                             <small class="text-muted text-end" style="font-size: 0.85rem;">
-                                                {{ date('H:i - d/m/Y', strtotime($comment['created_at'])) }}
+                                                <i class="fa-regular fa-clock me-1"></i>{{ date('H:i - d/m/Y', strtotime($comment['created_at'])) }}
                                             </small>
                                         </div>
                                         <p class="card-text mb-0" style="white-space: pre-wrap; line-height: 1.6;">{{ $comment['content'] }}</p>
@@ -128,7 +140,9 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-muted my-2 text-center">Chưa có bình luận nào cho bài viết này.</p>
+                        <p class="text-muted my-2 text-center">
+                            <i class="fa-regular fa-comment-dots me-1"></i>Chưa có bình luận nào cho bài viết này.
+                        </p>
                     @endif
                 </div>
 
@@ -161,10 +175,10 @@
         function setTheme(theme) {
             htmlElement.setAttribute('data-bs-theme', theme);
             if (theme === 'dark') {
-                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-sun me-1"></i> Light Mode';
                 btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
             } else {
-                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.innerHTML = '<i class="fa-solid fa-moon me-1"></i> Dark Mode';
                 btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
             }
         }
