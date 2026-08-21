@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông Tin Cá Nhân</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-body-tertiary">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}"><i class="fa-solid fa-blog me-2"></i>My Blog</a>
             <div class="navbar-nav align-items-center flex-row">
-                <a class="nav-link fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('index') }}"><i class="fa-solid fa-house me-1"></i>Trang chủ</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Ảnh AI</a>
                 <a class="nav-link active fw-bold me-3" href="{{ route('profile') }}">Profile</a>
                 
                 <!-- Nút chuyển đổi Dark/Light mode -->
