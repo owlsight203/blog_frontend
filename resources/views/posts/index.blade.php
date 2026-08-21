@@ -12,7 +12,7 @@
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
             <div class="navbar-nav">
-                <a class="nav-link fw-bold" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link active fw-bold" href="{{ route('index') }}">Trang chủ</a>
                 <a class="nav-link fw-bold" href="{{ route('picai') }}">Ảnh AI</a>
             </div>
         </div>
