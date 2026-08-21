@@ -10,10 +10,10 @@
     <!-- Đưa Navbar ra ngoài container chính và sửa lại class giống trang detail -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('index') }}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
             <div class="navbar-nav">
-                <a class="nav-link" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link fw-bold" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link fw-bold" href="{{ route('picai') }}">Ảnh AI</a>
             </div>
         </div>
     </nav>
