@@ -8,12 +8,12 @@
 </head>
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fw-bold mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('index') }}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
             <div class="navbar-nav">
-                <a class="nav-link" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link active" href="{{ route('picai') }}">Ảnh AI</a>
+                <a class="nav-link fw-bold" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link active fw-bold" href="{{ route('picai') }}">Ảnh AI</a>
             </div>
         </div>
     </nav>
@@ -21,7 +21,7 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="fw-bold text-dark">Danh sách ảnh tạo bởi AI</h1>
-            <a href="{{ route('index') }}" class="btn btn-primary btn-sm">Xem Bài Viết Blog</a>
+            <a href="{{ route('index') }}" class="btn btn-dark btn-sm">Xem Bài Viết Blog</a>
         </div>
 
         <div class="row">
