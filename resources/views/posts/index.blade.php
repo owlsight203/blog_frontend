@@ -20,7 +20,7 @@
 
     <!-- Bắt đầu phần nội dung chính -->
     <div class="container py-4">
-        <h1 class="mb-4">Danh sách bài viết từ Django API</h1>
+        <h1 class="mb-4">Danh sách bài viết</h1>
         
         <div class="row">
             @foreach($posts as $post)
