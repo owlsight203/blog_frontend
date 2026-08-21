@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>My Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body class="bg-body-tertiary">
 
-    <!-- Đưa Navbar ra ngoài container chính và sửa lại class giống trang detail -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ route('index') }}">My Blog</a>
-            <div class="navbar-nav">
-                <a class="nav-link active fw-bold" href="{{ route('index') }}">Trang chủ</a>
-                <a class="nav-link fw-bold" href="{{ route('picai') }}">Ảnh AI</a>
+            <div class="navbar-nav align-items-center flex-row">
+                <a class="nav-link active fw-bold me-3" href="{{ route('index') }}">Trang chủ</a>
+                <a class="nav-link fw-bold me-3" href="{{ route('picai') }}">Ảnh AI</a>
+                
+                <!-- Nút chuyển đổi Dark/Light mode -->
+                <button class="btn btn-outline-light btn-sm" id="btnSwitch" type="button">
+                    🌙 Dark Mode
+                </button>
             </div>
         </div>
     </nav>
@@ -64,5 +68,35 @@
         </nav>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        const btnSwitch = document.getElementById('btnSwitch');
+        const htmlElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        btnSwitch.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-bs-theme', theme);
+            if (theme === 'dark') {
+                btnSwitch.textContent = '☀️ Light Mode';
+                btnSwitch.classList.replace('btn-outline-light', 'btn-outline-warning');
+            } else {
+                btnSwitch.textContent = '🌙 Dark Mode';
+                btnSwitch.classList.replace('btn-outline-warning', 'btn-outline-light');
+            }
+        }
+    </script>
 </body>
 </html>
